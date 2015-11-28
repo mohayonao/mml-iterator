@@ -7,7 +7,15 @@
     "url": "https://github.com/mohayonao/mml-iterator/issues"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "babel": "^5.8.34",
+    "babel-eslint": "^4.1.5",
+    "eslint": "^1.10.1",
+    "espower-babel": "^3.3.0",
+    "isparta": "^3.5.3",
+    "mocha": "^2.3.4",
+    "power-assert": "^1.2.0"
+  },
   "homepage": "http://mohayonao.github.io/mml-iterator/",
   "keywords": [
     "iterator",
@@ -19,5 +27,13 @@
     "type": "git",
     "url": "http://github.com/mohayonao/mml-iterator.git"
   },
-  "scripts": {}
+  "scripts": {
+    "build": "npm run build:to5",
+    "build:to5": "babel src --out-dir lib",
+    "cover": "babel-node $(npm bin)/isparta cover --report text --report html _mocha",
+    "lint": "eslint src test",
+    "prepublish": "rm -rf lib && npm run lint && npm run test && npm run build:to5",
+    "test": "mocha --compilers js:espower-babel/guess",
+    "travis": "npm run lint && npm run test"
+  }
 }
