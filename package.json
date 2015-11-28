@@ -1,0 +1,23 @@
+{
+  "name": "mml-iterator",
+  "description": "MML(Music Macro Language) Iterator",
+  "version": "0.0.0",
+  "author": "Nao Yonamine <mohayonao@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/mohayonao/mml-iterator/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "homepage": "http://mohayonao.github.io/mml-iterator/",
+  "keywords": [
+    "iterator",
+    "mml"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mohayonao/mml-iterator.git"
+  },
+  "scripts": {}
+}
