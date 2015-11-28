@@ -1,7 +1,7 @@
 {
   "name": "mml-iterator",
   "description": "MML(Music Macro Language) Iterator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Nao Yonamine <mohayonao@gmail.com>",
   "bugs": {
     "url": "https://github.com/mohayonao/mml-iterator/issues"
@@ -16,6 +16,12 @@
     "mocha": "^2.3.4",
     "power-assert": "^1.2.0"
   },
+  "files": [
+    "package.json",
+    "README.md",
+    "index.js",
+    "lib"
+  ],
   "homepage": "http://mohayonao.github.io/mml-iterator/",
   "keywords": [
     "iterator",
