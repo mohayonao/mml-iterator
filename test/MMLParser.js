@@ -38,7 +38,7 @@ describe("MMLParser", () => {
       assert(parser.advance().type === Syntax.OctaveShift);
       assert(parser.advance().type === Syntax.NoteLength);
       assert(parser.advance().type === Syntax.NoteQuantize);
-      assert(parser.advance().type === Syntax.NoteVolume);
+      assert(parser.advance().type === Syntax.NoteVelocity);
       assert(parser.advance().type === Syntax.Tempo);
       assert(parser.advance().type === Syntax.InfiniteLoop);
       assert(Array.isArray(parser.advance()));
@@ -132,7 +132,7 @@ describe("MMLParser", () => {
       });
     });
     it("[ >g<ce ]", () => {
-      let parser = new MMLParser("[ >g<ce ]");
+      let parser = new MMLParser("[ <g>ce ]");
 
       assert.deepEqual(parser.readChord(), {
         type: Syntax.Note,
@@ -276,20 +276,20 @@ describe("MMLParser", () => {
       });
     });
   });
-  describe("#readNoteVolume(): object", () => {
+  describe("#readNoteVelocity(): object", () => {
     it("q", () => {
       let parser = new MMLParser("v");
 
-      assert.deepEqual(parser.readNoteVolume(), {
-        type: Syntax.NoteVolume,
+      assert.deepEqual(parser.readNoteVelocity(), {
+        type: Syntax.NoteVelocity,
         value: null
       });
     });
     it("q4", () => {
       let parser = new MMLParser("v4");
 
-      assert.deepEqual(parser.readNoteVolume(), {
-        type: Syntax.NoteVolume,
+      assert.deepEqual(parser.readNoteVelocity(), {
+        type: Syntax.NoteVelocity,
         value: 4
       });
     });

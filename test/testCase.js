@@ -1,6 +1,5 @@
 import assert from "power-assert";
 import MMLIterator from "../src/MMLIterator";
-import DefaultConfig from "../src/DefaultConfig";
 import testCases from "./testCases.json";
 
 function getIteratorResult(iter) {
@@ -23,7 +22,7 @@ describe("test", () => {
   Object.keys(testCases).forEach((source) => {
 
     it(source, () => {
-      let iter = new MMLIterator(source, DefaultConfig);
+      let iter = new MMLIterator(source);
       let result = getIteratorResult(iter);
       let expected = testCases[source];
 
