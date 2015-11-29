@@ -24,7 +24,7 @@ $ npm install mml-iterator
 ```js
 import MMLIterator from "mml-iterator";
 
-let iter = new MMLIterator("t120 ceg<c");
+let iter = new MMLIterator("t200 o6 l8 e g > e c d g");
 
 for (let noteEvent of iter) {
   console.log(noteEvent);
@@ -32,10 +32,12 @@ for (let noteEvent of iter) {
 ```
 
 ```js
-{ time: 0.0, duration: 0.5, noteNumbers: [ 72 ], velocity: 100, quantize: 75 }
-{ time: 0.5, duration: 0.5, noteNumbers: [ 76 ], velocity: 100, quantize: 75 }
-{ time: 1.0, duration: 0.5, noteNumbers: [ 79 ], velocity: 100, quantize: 75 }
-{ time: 1.5, duration: 0.5, noteNumbers: [ 84 ], velocity: 100, quantize: 75 }
+{ time: 0.00, duration: 0.15, noteNumber:  88, velocity: 100, quantize: 75 }
+{ time: 0.15, duration: 0.15, noteNumber:  91, velocity: 100, quantize: 75 }
+{ time: 0.30, duration: 0.15, noteNumber: 100, velocity: 100, quantize: 75 }
+{ time: 0.45, duration: 0.15, noteNumber:  96, velocity: 100, quantize: 75 }
+{ time: 0.60, duration: 0.15, noteNumber:  98, velocity: 100, quantize: 75 }
+{ time: 0.75, duration: 0.15, noteNumber: 103, velocity: 100, quantize: 75 }
 ```
 
 ## MML Syntax
