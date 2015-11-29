@@ -27,22 +27,8 @@ export default class MMLIterator {
     return this._commandIndex < this._commands.length;
   }
 
-  forward() {
-    if (!this.hasNext() && this._infiniteLoopIndex !== -1) {
-      this._commandIndex = this._infiniteLoopIndex;
-    }
-
-    while (this.hasNext() && this._commands[this._commandIndex].type !== Syntax.Note) {
-      let command = this._commands[this._commandIndex++];
-
-      this[command.type](command);
-    }
-
-    return this._commands[this._commandIndex++] || {};
-  }
-
   next() {
-    let command = this.forward();
+    let command = this._forward(true);
 
     if (command.type === Syntax.Note) {
       return { done: false, value: this[command.type](command) };
@@ -53,6 +39,22 @@ export default class MMLIterator {
 
   [ITERATOR]() {
     return this;
+  }
+
+  _forward(forward) {
+    while (this.hasNext() && this._commands[this._commandIndex].type !== Syntax.Note) {
+      let command = this._commands[this._commandIndex++];
+
+      this[command.type](command);
+    }
+
+    if (forward && !this.hasNext() && this._infiniteLoopIndex !== -1) {
+      this._commandIndex = this._infiniteLoopIndex;
+
+      return this._forward(false);
+    }
+
+    return this._commands[this._commandIndex++] || {};
   }
 
   _calcDuration(noteLength) {
