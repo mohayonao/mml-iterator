@@ -28,6 +28,10 @@ export default class MMLIterator {
   }
 
   forward() {
+    if (!this.hasNext() && this._infiniteLoopIndex !== -1) {
+      this._commandIndex = this._infiniteLoopIndex;
+    }
+
     while (this.hasNext() && this._commands[this._commandIndex].type !== Syntax.Note) {
       let command = this._commands[this._commandIndex++];
 

@@ -359,6 +359,114 @@
         79
       ],
       "volume": 0.75
+    },
+    {
+      "time": 1.5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        76
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 2,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        79
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 2.5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        76
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 3,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        79
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 3.5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        76
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 4,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        79
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 4.5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        76
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        79
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 5.5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        76
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 6,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        79
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 6.5,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        76
+      ],
+      "volume": 0.75
+    },
+    {
+      "time": 7,
+      "duration": 0.5,
+      "gateTime": 0.375,
+      "noteNumbers": [
+        79
+      ],
+      "volume": 0.75
     }
   ],
   "c $ l2": [
