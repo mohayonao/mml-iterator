@@ -11,6 +11,7 @@ export default class MMLIterator {
     this._commands = new MMLParser(source).parse();
     this._commandIndex = 0;
     this._processedTime = 0;
+    this._iterator = null;
     this._octave = DefaultParams.octave;
     this._noteLength = [ DefaultParams.length ];
     this._velocity = DefaultParams.velocity;
@@ -25,13 +26,23 @@ export default class MMLIterator {
   }
 
   next() {
+    if (this._iterator) {
+      let iterItem = this._iterator.next();
+
+      if (!iterItem.done) {
+        return iterItem;
+      }
+    }
+
     let command = this._forward(true);
 
     if (command.type === Syntax.Note) {
-      return { done: false, value: this[command.type](command) };
+      this._iterator = this[command.type](command);
     } else {
       return { done: true, value: null };
     }
+
+    return this.next();
   }
 
   [ITERATOR]() {
@@ -96,7 +107,9 @@ export default class MMLIterator {
 
     this._processedTime = this._processedTime + duration;
 
-    return { time, duration, noteNumbers, velocity, quantize };
+    return noteNumbers.map((noteNumber) => {
+      return { time, duration, noteNumber, velocity, quantize }
+    })[Symbol.iterator]();
   }
 
   [Syntax.Octave](command) {

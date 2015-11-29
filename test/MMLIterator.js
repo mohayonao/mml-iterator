@@ -27,15 +27,15 @@ describe("MMLIterator", () => {
 
       assert.deepEqual(iter.next(), {
         done: false,
-        value: { time: 0, duration: 0.5, noteNumbers: [ 60 ], velocity: 100, quantize: 75 }
+        value: { time: 0.0, duration: 0.5, noteNumber: 60, velocity: 100, quantize: 75 }
       });
       assert.deepEqual(iter.next(), {
         done: false,
-        value: { time: 0.5, duration: 0.5, noteNumbers: [ 64 ], velocity: 100, quantize: 75 }
+        value: { time: 0.5, duration: 0.5, noteNumber: 64, velocity: 100, quantize: 75 }
       });
       assert.deepEqual(iter.next(), {
         done: false,
-        value: { time: 1, duration: 0.5, noteNumbers: [ 67 ], velocity: 100, quantize: 75 }
+        value: { time: 1.0, duration: 0.5, noteNumber: 67, velocity: 100, quantize: 75 }
       });
       assert.deepEqual(iter.next(), {
         done: true,
@@ -53,9 +53,9 @@ describe("MMLIterator", () => {
       }
 
       assert.deepEqual(result, [
-        { time: 0, duration: 0.5, noteNumbers: [ 60 ], velocity: 100, quantize: 75 },
-        { time: 0.5, duration: 0.5, noteNumbers: [ 64 ], velocity: 100, quantize: 75 },
-        { time: 1, duration: 0.5, noteNumbers: [ 67 ], velocity: 100, quantize: 75 }
+        { time: 0.0, duration: 0.5, noteNumber: 60, velocity: 100, quantize: 75 },
+        { time: 0.5, duration: 0.5, noteNumber: 64, velocity: 100, quantize: 75 },
+        { time: 1.0, duration: 0.5, noteNumber: 67, velocity: 100, quantize: 75 }
       ]);
     });
   });
