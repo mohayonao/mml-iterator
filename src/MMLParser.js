@@ -34,16 +34,16 @@ export default class MMLParser {
       return this.readRest();
     case "o":
       return this.readOctave();
-    case "<":
-      return this.readOctaveShift(+1);
     case ">":
+      return this.readOctaveShift(+1);
+    case "<":
       return this.readOctaveShift(-1);
     case "l":
       return this.readNoteLength();
     case "q":
       return this.readNoteQuantize();
     case "v":
-      return this.readNoteVolume();
+      return this.readNoteVelocity();
     case "t":
       return this.readTempo();
     case "$":
@@ -79,11 +79,11 @@ export default class MMLParser {
       case "b":
         noteList.push(this._readNoteNumber(offset));
         break;
-      case "<":
+      case ">":
         this.scanner.next();
         offset += 12;
         break;
-      case ">":
+      case "<":
         this.scanner.next();
         offset -= 12;
         break;
@@ -148,11 +148,11 @@ export default class MMLParser {
     };
   }
 
-  readNoteVolume() {
+  readNoteVelocity() {
     this.scanner.expect("v");
 
     return {
-      type: Syntax.NoteVolume,
+      type: Syntax.NoteVelocity,
       value: this._readArgument(/\d+/)
     };
   }

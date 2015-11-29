@@ -1,5 +1,4 @@
 import assert from "power-assert";
-import DefaultConfig from "../src/DefaultConfig";
 import MMLIterator from "../src/MMLIterator";
 
 describe("MMLIterator", () => {
@@ -12,31 +11,31 @@ describe("MMLIterator", () => {
   });
   describe("#hasNext(): boolean", () => {
     it("works", () => {
-      let iter = new MMLIterator("", DefaultConfig);
+      let iter = new MMLIterator("");
 
       assert(iter.hasNext() === false);
     });
     it("works", () => {
-      let iter = new MMLIterator("cde", DefaultConfig);
+      let iter = new MMLIterator("cde");
 
       assert(iter.hasNext() === true);
     });
   });
   describe("#next(): { done: boolean, value: object[] }", () => {
     it("works with interval: 0.5", () => {
-      let iter = new MMLIterator("ceg", DefaultConfig);
+      let iter = new MMLIterator("ceg");
 
       assert.deepEqual(iter.next(), {
         done: false,
-        value: { time: 0, duration: 0.5, gateTime: 0.375, noteNumbers: [ 72 ], volume: 0.75 }
+        value: { time: 0, duration: 0.5, noteNumbers: [ 60 ], velocity: 100, quantize: 75 }
       });
       assert.deepEqual(iter.next(), {
         done: false,
-        value: { time: 0.5, duration: 0.5, gateTime: 0.375, noteNumbers: [ 76 ], volume: 0.75 }
+        value: { time: 0.5, duration: 0.5, noteNumbers: [ 64 ], velocity: 100, quantize: 75 }
       });
       assert.deepEqual(iter.next(), {
         done: false,
-        value: { time: 1, duration: 0.5, gateTime: 0.375, noteNumbers: [ 79 ], volume: 0.75 }
+        value: { time: 1, duration: 0.5, noteNumbers: [ 67 ], velocity: 100, quantize: 75 }
       });
       assert.deepEqual(iter.next(), {
         done: true,
@@ -46,7 +45,7 @@ describe("MMLIterator", () => {
   });
   describe("#[Symbol.iterator]: Iterator", () => {
     it("works", () => {
-      let iter = new MMLIterator("ceg", DefaultConfig);
+      let iter = new MMLIterator("ceg");
       let result = [];
 
       for (let items of iter) {
@@ -54,9 +53,9 @@ describe("MMLIterator", () => {
       }
 
       assert.deepEqual(result, [
-        { time: 0, duration: 0.5, gateTime: 0.375, noteNumbers: [ 72 ], volume: 0.75 },
-        { time: 0.5, duration: 0.5, gateTime: 0.375, noteNumbers: [ 76 ], volume: 0.75 },
-        { time: 1, duration: 0.5, gateTime: 0.375, noteNumbers: [ 79 ], volume: 0.75 }
+        { time: 0, duration: 0.5, noteNumbers: [ 60 ], velocity: 100, quantize: 75 },
+        { time: 0.5, duration: 0.5, noteNumbers: [ 64 ], velocity: 100, quantize: 75 },
+        { time: 1, duration: 0.5, noteNumbers: [ 67 ], velocity: 100, quantize: 75 }
       ]);
     });
   });

@@ -1,24 +1,21 @@
 import Syntax from "./Syntax";
-import DefaultConfig from "./DefaultConfig";
+import DefaultParams from "./DefaultParams";
 import MMLParser from "./MMLParser";
-import constrain from "./utils/constrain";
-import xtend from "./utils/xtend";
 
 const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "Symbol(Symbol.iterator)";
 
 export default class MMLIterator {
-  constructor(source, config = {}) {
+  constructor(source) {
     this.source = source;
-    this.config = xtend(DefaultConfig, config);
 
     this._commands = new MMLParser(source).parse();
     this._commandIndex = 0;
     this._processedTime = 0;
-    this._octave = this.config.defaultOctave;
-    this._noteLength = [ this.config.defaultNoteLength ];
-    this._quantize = this.config.defaultQuantize;
-    this._volume = this.config.defaultVolume;
-    this._tempo = this.config.defaultTempo;
+    this._octave = DefaultParams.octave;
+    this._noteLength = [ DefaultParams.length ];
+    this._velocity = DefaultParams.velocity;
+    this._quantize = DefaultParams.quantize;
+    this._tempo = DefaultParams.tempo;
     this._infiniteLoopIndex = -1;
     this._loopStack = [];
   }
@@ -78,8 +75,7 @@ export default class MMLIterator {
         break;
       }
 
-      let value = elem !== null ? elem : this.config.defaultNoteLength;
-      let length = constrain(value, this.config.minNoteLength, this.config.maxNoteLength);
+      let length = elem !== null ? elem : DefaultParams.length;
 
       return (60 / this._tempo) * (4 / length);
     });
@@ -94,59 +90,43 @@ export default class MMLIterator {
   [Syntax.Note](command) {
     let time = this._processedTime;
     let duration = this._calcDuration(command.noteLength);
-    let gateTime = duration * (this._quantize / this.config.maxQuantize);
     let noteNumbers = command.noteNumbers.map(noteNumber => this._calcNoteNumber(noteNumber));
-    let volume = this._volume / this.config.maxVolume;
+    let quantize = this._quantize;
+    let velocity = this._velocity;
 
     this._processedTime = this._processedTime + duration;
 
-    return { time, duration, gateTime, noteNumbers, volume };
+    return { time, duration, noteNumbers, velocity, quantize };
   }
 
   [Syntax.Octave](command) {
-    let value = command.value !== null ? command.value : this.config.defaultOctave;
-    let octave = constrain(value, this.config.minOctave, this.config.maxOctave);
-
-    this._octave = octave;
+    this._octave = command.value !== null ? command.value : DefaultParams.octave;
   }
 
   [Syntax.OctaveShift](command) {
     let value = command.value !== null ? command.value : 1;
-    let direction = command.direction * this.config.octaveShiftDirection;
-    let octave = constrain(this._octave + value * direction, this.config.minOctave, this.config.maxOctave);
 
-    this._octave = octave;
+    this._octave += value * command.direction;
   }
 
   [Syntax.NoteLength](command) {
     let noteLength = command.noteLength.map((value) => {
-      value = value !== null ? value : this.config.defaultNoteLength;
-
-      return constrain(value, this.config.minNoteLength, this.config.maxNoteLength);
+      return value !== null ? value : DefaultParams.length;
     });
 
     this._noteLength = noteLength;
   }
 
-  [Syntax.NoteQuantize](command) {
-    let value = command.value !== null ? command.value : this.config.defaultQuantize;
-    let quantize = constrain(value, this.config.minQuantize, this.config.maxQuantize);
-
-    this._quantize = quantize;
+  [Syntax.NoteVelocity](command) {
+    this._velocity = command.value !== null ? command.value : DefaultParams.velocity;
   }
 
-  [Syntax.NoteVolume](command) {
-    let value = command.value !== null ? command.value : this.config.defaultVolume;
-    let volume = constrain(value, this.config.minVolume, this.config.maxVolume);
-
-    this._volume = volume;
+  [Syntax.NoteQuantize](command) {
+    this._quantize = command.value !== null ? command.value : DefaultParams.quantize;
   }
 
   [Syntax.Tempo](command) {
-    let value = command.value !== null ? command.value : this.config.defaultTempo;
-    let tempo = constrain(value, this.config.minTempo, this.config.maxTempo);
-
-    this._tempo = tempo;
+    this._tempo = command.value !== null ? command.value : DefaultParams.tempo;
   }
 
   [Syntax.InfiniteLoop]() {
@@ -154,8 +134,7 @@ export default class MMLIterator {
   }
 
   [Syntax.LoopBegin](command) {
-    let value = command.value !== null ? command.value : this.config.defaultLoopCount;
-    let loopCount = constrain(value, 1, this.config.maxLoopCount);
+    let loopCount = command.value !== null ? command.value : DefaultParams.loopCount;
     let loopTopIndex = this._commandIndex;
     let loopOutIndex = -1;
 
