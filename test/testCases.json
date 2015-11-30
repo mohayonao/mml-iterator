@@ -77,6 +77,10 @@
       "quantize": 75
     },
     {
+      "time": 0.5,
+      "duration": 0.5
+    },
+    {
       "time": 1,
       "duration": 0.5,
       "noteNumber": 64,
@@ -84,14 +88,27 @@
       "quantize": 75
     },
     {
+      "time": 1.5,
+      "duration": 0.5
+    },
+    {
       "time": 2,
       "duration": 0.5,
       "noteNumber": 67,
       "velocity": 100,
       "quantize": 75
+    },
+    {
+      "time": 2.5,
+      "duration": 0.5
     }
   ],
-  "r": [],
+  "r": [
+    {
+      "time": 0,
+      "duration": 0.5
+    }
+  ],
   "[ ceg ]": [
     {
       "time": 0,

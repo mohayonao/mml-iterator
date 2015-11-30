@@ -32,7 +32,7 @@ describe("MMLParser", () => {
       assert(parser.advance().type === Syntax.Note);
       assert(parser.advance().type === Syntax.Note);
       assert(parser.advance().type === Syntax.Note);
-      assert(parser.advance().type === Syntax.Note);
+      assert(parser.advance().type === Syntax.Rest);
       assert(parser.advance().type === Syntax.Octave);
       assert(parser.advance().type === Syntax.OctaveShift);
       assert(parser.advance().type === Syntax.OctaveShift);
@@ -153,8 +153,7 @@ describe("MMLParser", () => {
       let parser = new MMLParser("r");
 
       assert.deepEqual(parser.readRest(), {
-        type: Syntax.Note,
-        noteNumbers: [],
+        type: Syntax.Rest,
         noteLength: [ null ]
       });
     });
@@ -162,8 +161,7 @@ describe("MMLParser", () => {
       let parser = new MMLParser("r4");
 
       assert.deepEqual(parser.readRest(), {
-        type: Syntax.Note,
-        noteNumbers: [],
+        type: Syntax.Rest,
         noteLength: [ 4 ]
       });
     });
@@ -171,8 +169,7 @@ describe("MMLParser", () => {
       let parser = new MMLParser("r8..");
 
       assert.deepEqual(parser.readRest(), {
-        type: Syntax.Note,
-        noteNumbers: [],
+        type: Syntax.Rest,
         noteLength: [ 8, 0, 0 ]
       });
     });
@@ -180,8 +177,7 @@ describe("MMLParser", () => {
       let parser = new MMLParser("r4^16");
 
       assert.deepEqual(parser.readRest(), {
-        type: Syntax.Note,
-        noteNumbers: [],
+        type: Syntax.Rest,
         noteLength: [ 4, 16 ]
       });
     });
@@ -370,8 +366,7 @@ describe("MMLParser", () => {
           type: Syntax.LoopExit
         },
         {
-          type: Syntax.Note,
-          noteNumbers: [],
+          type: Syntax.Rest,
           noteLength: [ null ]
         },
         {

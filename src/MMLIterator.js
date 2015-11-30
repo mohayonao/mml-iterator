@@ -36,7 +36,7 @@ export default class MMLIterator {
 
     let command = this._forward(true);
 
-    if (command.type === Syntax.Note) {
+    if (isNoteEvent(command)) {
       this._iterator = this[command.type](command);
     } else {
       return { done: true, value: null };
@@ -50,7 +50,7 @@ export default class MMLIterator {
   }
 
   _forward(forward) {
-    while (this.hasNext() && this._commands[this._commandIndex].type !== Syntax.Note) {
+    while (this.hasNext() && !isNoteEvent(this._commands[this._commandIndex])) {
       let command = this._commands[this._commandIndex++];
 
       this[command.type](command);
@@ -107,9 +107,18 @@ export default class MMLIterator {
 
     this._processedTime = this._processedTime + duration;
 
-    return noteNumbers.map((noteNumber) => {
+    return arrayToIterator(noteNumbers.map((noteNumber) => {
       return { time, duration, noteNumber, velocity, quantize }
-    })[Symbol.iterator]();
+    }));
+  }
+
+  [Syntax.Rest](command) {
+    let time = this._processedTime;
+    let duration = this._calcDuration(command.noteLength);
+
+    this._processedTime = this._processedTime + duration;
+
+    return arrayToIterator([ { time, duration } ]);
   }
 
   [Syntax.Octave](command) {
@@ -182,4 +191,21 @@ export default class MMLIterator {
 
     this._commandIndex = index;
   }
+}
+
+function arrayToIterator(array) {
+  let index = 0;
+
+  return {
+    next() {
+      if (index < array.length) {
+        return { done: false, value: array[index++] };
+      }
+      return { done: true };
+    }
+  };
+}
+
+function isNoteEvent(command) {
+  return command.type === Syntax.Note || command.type === Syntax.Rest;
 }
