@@ -1,5 +1,6 @@
 export default {
   Note: "Note",
+  Rest: "Rest",
   Octave: "Octave",
   OctaveShift: "OctaveShift",
   NoteLength: "NoteLength",

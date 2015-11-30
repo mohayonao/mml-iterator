@@ -105,8 +105,7 @@ export default class MMLParser {
     this.scanner.expect("r");
 
     return {
-      type: Syntax.Note,
-      noteNumbers: [],
+      type: Syntax.Rest,
       noteLength: this._readLength()
     };
   }
