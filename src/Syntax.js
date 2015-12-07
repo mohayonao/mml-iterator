@@ -10,5 +10,5 @@ export default {
   InfiniteLoop: "InfiniteLoop",
   LoopBegin: "LoopBegin",
   LoopExit: "LoopExit",
-  LoopEnd: "LoopEnd"
+  LoopEnd: "LoopEnd",
 };

@@ -32,12 +32,13 @@ for (let noteEvent of iter) {
 ```
 
 ```js
-{ time: 0.00, duration: 0.15, noteNumber:  88, velocity: 100, quantize: 75 }
-{ time: 0.15, duration: 0.15, noteNumber:  91, velocity: 100, quantize: 75 }
-{ time: 0.30, duration: 0.15, noteNumber: 100, velocity: 100, quantize: 75 }
-{ time: 0.45, duration: 0.15, noteNumber:  96, velocity: 100, quantize: 75 }
-{ time: 0.60, duration: 0.15, noteNumber:  98, velocity: 100, quantize: 75 }
-{ time: 0.75, duration: 0.15, noteNumber: 103, velocity: 100, quantize: 75 }
+{ type: "note", time: 0.00, duration: 0.15, noteNumber:  88, velocity: 100, quantize: 75 }
+{ type: "note", time: 0.15, duration: 0.15, noteNumber:  91, velocity: 100, quantize: 75 }
+{ type: "note", time: 0.30, duration: 0.15, noteNumber: 100, velocity: 100, quantize: 75 }
+{ type: "note", time: 0.45, duration: 0.15, noteNumber:  96, velocity: 100, quantize: 75 }
+{ type: "note", time: 0.60, duration: 0.15, noteNumber:  98, velocity: 100, quantize: 75 }
+{ type: "note", time: 0.75, duration: 0.15, noteNumber: 103, velocity: 100, quantize: 75 }
+{ type: "end", time: 0.9 }
 ```
 
 ## MML Syntax
