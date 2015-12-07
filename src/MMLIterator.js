@@ -19,6 +19,7 @@ export default class MMLIterator {
     this._tempo = DefaultParams.tempo;
     this._infiniteLoopIndex = -1;
     this._loopStack = [];
+    this._done = false;
   }
 
   hasNext() {
@@ -26,6 +27,10 @@ export default class MMLIterator {
   }
 
   next() {
+    if (this._done) {
+      return { done: true, value: null };
+    }
+
     if (this._iterator) {
       let iterItem = this._iterator.next();
 
@@ -39,7 +44,8 @@ export default class MMLIterator {
     if (isNoteEvent(command)) {
       this._iterator = this[command.type](command);
     } else {
-      return { done: true, value: null };
+      this._done = true;
+      return { done: false, value: { type: "end", time: this._processedTime } };
     }
 
     return this.next();
@@ -99,6 +105,7 @@ export default class MMLIterator {
   }
 
   [Syntax.Note](command) {
+    let type = "note";
     let time = this._processedTime;
     let duration = this._calcDuration(command.noteLength);
     let noteNumbers = command.noteNumbers.map(noteNumber => this._calcNoteNumber(noteNumber));
@@ -108,17 +115,14 @@ export default class MMLIterator {
     this._processedTime = this._processedTime + duration;
 
     return arrayToIterator(noteNumbers.map((noteNumber) => {
-      return { time, duration, noteNumber, velocity, quantize };
+      return { type, time, duration, noteNumber, velocity, quantize };
     }));
   }
 
   [Syntax.Rest](command) {
-    let time = this._processedTime;
     let duration = this._calcDuration(command.noteLength);
 
     this._processedTime = this._processedTime + duration;
-
-    return arrayToIterator([ { time, duration } ]);
   }
 
   [Syntax.Octave](command) {
