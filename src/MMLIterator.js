@@ -79,7 +79,7 @@ export default class MMLIterator {
         elem = prev;
         break;
       case 0:
-        elem = dotted = dotted * 2;
+        elem = (dotted *= 2);
         break;
       default:
         prev = dotted = elem;
@@ -108,7 +108,7 @@ export default class MMLIterator {
     this._processedTime = this._processedTime + duration;
 
     return arrayToIterator(noteNumbers.map((noteNumber) => {
-      return { time, duration, noteNumber, velocity, quantize }
+      return { time, duration, noteNumber, velocity, quantize };
     }));
   }
 
@@ -202,7 +202,7 @@ function arrayToIterator(array) {
         return { done: false, value: array[index++] };
       }
       return { done: true };
-    }
+    },
   };
 }
 

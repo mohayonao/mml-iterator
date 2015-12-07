@@ -50,6 +50,8 @@ export default class MMLParser {
       return this.readInfiniteLoop();
     case "/":
       return this.readLoop();
+    default:
+      // do nothing
     }
     this.scanner.throwUnexpectedToken();
   }
@@ -58,7 +60,7 @@ export default class MMLParser {
     return {
       type: Syntax.Note,
       noteNumbers: [ this._readNoteNumber(0) ],
-      noteLength: this._readLength()
+      noteLength: this._readLength(),
     };
   }
 
@@ -97,7 +99,7 @@ export default class MMLParser {
     return {
       type: Syntax.Note,
       noteNumbers: noteList,
-      noteLength: this._readLength()
+      noteLength: this._readLength(),
     };
   }
 
@@ -106,7 +108,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.Rest,
-      noteLength: this._readLength()
+      noteLength: this._readLength(),
     };
   }
 
@@ -115,7 +117,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.Octave,
-      value: this._readArgument(/\d+/)
+      value: this._readArgument(/\d+/),
     };
   }
 
@@ -125,7 +127,7 @@ export default class MMLParser {
     return {
       type: Syntax.OctaveShift,
       direction: direction|0,
-      value: this._readArgument(/\d+/)
+      value: this._readArgument(/\d+/),
     };
   }
 
@@ -134,7 +136,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.NoteLength,
-      noteLength: this._readLength()
+      noteLength: this._readLength(),
     };
   }
 
@@ -143,7 +145,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.NoteQuantize,
-      value: this._readArgument(/\d+/)
+      value: this._readArgument(/\d+/),
     };
   }
 
@@ -152,7 +154,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.NoteVelocity,
-      value: this._readArgument(/\d+/)
+      value: this._readArgument(/\d+/),
     };
   }
 
@@ -161,7 +163,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.Tempo,
-      value: this._readArgument(/\d+(\.\d+)?/)
+      value: this._readArgument(/\d+(\.\d+)?/),
     };
   }
 
@@ -169,7 +171,7 @@ export default class MMLParser {
     this.scanner.expect("$");
 
     return {
-      type: Syntax.InfiniteLoop
+      type: Syntax.InfiniteLoop,
     };
   }
 

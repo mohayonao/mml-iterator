@@ -20,7 +20,6 @@ function getIteratorResult(iter) {
 
 describe("test", () => {
   Object.keys(testCases).forEach((source) => {
-
     it(source, () => {
       let iter = new MMLIterator(source);
       let result = getIteratorResult(iter);
