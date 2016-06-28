@@ -1,19 +1,21 @@
-import assert from "power-assert";
-import MMLParser from "../src/MMLParser";
-import Syntax from "../src/Syntax";
+"use strict";
+
+const assert = require("power-assert");
+const MMLParser = require("../src/MMLParser");
+const Syntax = require("../src/Syntax");
 
 describe("MMLParser", () => {
   describe("constructor(source: string)", () => {
     it("works", () => {
-      let parser = new MMLParser("");
+      const parser = new MMLParser("");
 
       assert(parser instanceof MMLParser);
     });
   });
   describe("#parse(): object[]", () => {
     it("works", () => {
-      let parser = new MMLParser("ceg");
-      let result = parser.parse();
+      const parser = new MMLParser("ceg");
+      const result = parser.parse();
 
       assert(Array.isArray(result));
       assert(result.length === 3);
@@ -22,7 +24,7 @@ describe("MMLParser", () => {
   });
   describe("#advance(): object", () => {
     it("works", () => {
-      let parser = new MMLParser("cdefgab[ceg]ro><lqvt$/::/]");
+      const parser = new MMLParser("cdefgab[ceg]ro><lqvt$/::/]");
 
       assert(parser.advance().type === Syntax.Note);
       assert(parser.advance().type === Syntax.Note);
@@ -49,99 +51,99 @@ describe("MMLParser", () => {
   });
   describe("#readNote(): object", () => {
     it("c", () => {
-      let parser = new MMLParser("c");
+      const parser = new MMLParser("c");
 
       assert.deepEqual(parser.readNote(), {
         type: Syntax.Note,
         noteNumbers: [ 0 ],
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("c4", () => {
-      let parser = new MMLParser("c4");
+      const parser = new MMLParser("c4");
 
       assert.deepEqual(parser.readNote(), {
         type: Syntax.Note,
         noteNumbers: [ 0 ],
-        noteLength: [ 4 ],
+        noteLength: [ 4 ]
       });
     });
     it("c8..", () => {
-      let parser = new MMLParser("c8..");
+      const parser = new MMLParser("c8..");
 
       assert.deepEqual(parser.readNote(), {
         type: Syntax.Note,
         noteNumbers: [ 0 ],
-        noteLength: [ 8, 0, 0 ],
+        noteLength: [ 8, 0, 0 ]
       });
     });
     it("c4^16", () => {
-      let parser = new MMLParser("c4^16");
+      const parser = new MMLParser("c4^16");
 
       assert.deepEqual(parser.readNote(), {
         type: Syntax.Note,
         noteNumbers: [ 0 ],
-        noteLength: [ 4, 16 ],
+        noteLength: [ 4, 16 ]
       });
     });
     it("c+", () => {
-      let parser = new MMLParser("c+");
+      const parser = new MMLParser("c+");
 
       assert.deepEqual(parser.readNote(), {
         type: Syntax.Note,
         noteNumbers: [ 1 ],
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("d-", () => {
-      let parser = new MMLParser("d-");
+      const parser = new MMLParser("d-");
 
       assert.deepEqual(parser.readNote(), {
         type: Syntax.Note,
         noteNumbers: [ 1 ],
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
   });
   describe("#readChord(): object", () => {
     it("[]", () => {
-      let parser = new MMLParser("[]");
+      const parser = new MMLParser("[]");
 
       assert.deepEqual(parser.readChord(), {
         type: Syntax.Note,
         noteNumbers: [],
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("[ ceg ]", () => {
-      let parser = new MMLParser("[ ceg ]");
+      const parser = new MMLParser("[ ceg ]");
 
       assert.deepEqual(parser.readChord(), {
         type: Syntax.Note,
         noteNumbers: [ 0, 4, 7 ],
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("[ ceg ]2", () => {
-      let parser = new MMLParser("[ ceg ]2");
+      const parser = new MMLParser("[ ceg ]2");
 
       assert.deepEqual(parser.readChord(), {
         type: Syntax.Note,
         noteNumbers: [ 0, 4, 7 ],
-        noteLength: [ 2 ],
+        noteLength: [ 2 ]
       });
     });
     it("[ >g<ce ]", () => {
-      let parser = new MMLParser("[ <g>ce ]");
+      const parser = new MMLParser("[ <g>ce ]");
 
       assert.deepEqual(parser.readChord(), {
         type: Syntax.Note,
         noteNumbers: [ -5, 0, 4 ],
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("[ gce. ] throws SyntaxError", () => {
-      let parser = new MMLParser("[ gce. ]");
+      const parser = new MMLParser("[ gce. ]");
 
       assert.throws(() => {
         parser.readChord();
@@ -150,228 +152,228 @@ describe("MMLParser", () => {
   });
   describe("#readRest(): object", () => {
     it("r", () => {
-      let parser = new MMLParser("r");
+      const parser = new MMLParser("r");
 
       assert.deepEqual(parser.readRest(), {
         type: Syntax.Rest,
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("r4", () => {
-      let parser = new MMLParser("r4");
+      const parser = new MMLParser("r4");
 
       assert.deepEqual(parser.readRest(), {
         type: Syntax.Rest,
-        noteLength: [ 4 ],
+        noteLength: [ 4 ]
       });
     });
     it("r8..", () => {
-      let parser = new MMLParser("r8..");
+      const parser = new MMLParser("r8..");
 
       assert.deepEqual(parser.readRest(), {
         type: Syntax.Rest,
-        noteLength: [ 8, 0, 0 ],
+        noteLength: [ 8, 0, 0 ]
       });
     });
     it("r4^16", () => {
-      let parser = new MMLParser("r4^16");
+      const parser = new MMLParser("r4^16");
 
       assert.deepEqual(parser.readRest(), {
         type: Syntax.Rest,
-        noteLength: [ 4, 16 ],
+        noteLength: [ 4, 16 ]
       });
     });
   });
   describe("#readOctave(): object", () => {
     it("o", () => {
-      let parser = new MMLParser("o");
+      const parser = new MMLParser("o");
 
       assert.deepEqual(parser.readOctave(), {
         type: Syntax.Octave,
-        value: null,
+        value: null
       });
     });
     it("o4", () => {
-      let parser = new MMLParser("o4");
+      const parser = new MMLParser("o4");
 
       assert.deepEqual(parser.readOctave(), {
         type: Syntax.Octave,
-        value: 4,
+        value: 4
       });
     });
   });
   describe("#readOctaveShift(): object", () => {
     it("<", () => {
-      let parser = new MMLParser("<");
+      const parser = new MMLParser("<");
 
       assert.deepEqual(parser.readOctaveShift(1), {
         type: Syntax.OctaveShift,
         direction: 1,
-        value: null,
+        value: null
       });
     });
     it(">2", () => {
-      let parser = new MMLParser(">2");
+      const parser = new MMLParser(">2");
 
       assert.deepEqual(parser.readOctaveShift(-1), {
         type: Syntax.OctaveShift,
         direction: -1,
-        value: 2,
+        value: 2
       });
     });
   });
   describe("#readNoteLength(): object", () => {
     it("l", () => {
-      let parser = new MMLParser("l");
+      const parser = new MMLParser("l");
 
       assert.deepEqual(parser.readNoteLength(), {
         type: Syntax.NoteLength,
-        noteLength: [ null ],
+        noteLength: [ null ]
       });
     });
     it("l4", () => {
-      let parser = new MMLParser("l4");
+      const parser = new MMLParser("l4");
 
       assert.deepEqual(parser.readNoteLength(), {
         type: Syntax.NoteLength,
-        noteLength: [ 4 ],
+        noteLength: [ 4 ]
       });
     });
     it("l8..", () => {
-      let parser = new MMLParser("l8..");
+      const parser = new MMLParser("l8..");
 
       assert.deepEqual(parser.readNoteLength(), {
         type: Syntax.NoteLength,
-        noteLength: [ 8, 0, 0 ],
+        noteLength: [ 8, 0, 0 ]
       });
     });
     it("l4^16", () => {
-      let parser = new MMLParser("l4^16");
+      const parser = new MMLParser("l4^16");
 
       assert.deepEqual(parser.readNoteLength(), {
         type: Syntax.NoteLength,
-        noteLength: [ 4, 16 ],
+        noteLength: [ 4, 16 ]
       });
     });
   });
   describe("#readNoteQuantize(): object", () => {
     it("q", () => {
-      let parser = new MMLParser("q");
+      const parser = new MMLParser("q");
 
       assert.deepEqual(parser.readNoteQuantize(), {
         type: Syntax.NoteQuantize,
-        value: null,
+        value: null
       });
     });
     it("q4", () => {
-      let parser = new MMLParser("q4");
+      const parser = new MMLParser("q4");
 
       assert.deepEqual(parser.readNoteQuantize(), {
         type: Syntax.NoteQuantize,
-        value: 4,
+        value: 4
       });
     });
   });
   describe("#readNoteVelocity(): object", () => {
     it("q", () => {
-      let parser = new MMLParser("v");
+      const parser = new MMLParser("v");
 
       assert.deepEqual(parser.readNoteVelocity(), {
         type: Syntax.NoteVelocity,
-        value: null,
+        value: null
       });
     });
     it("q4", () => {
-      let parser = new MMLParser("v4");
+      const parser = new MMLParser("v4");
 
       assert.deepEqual(parser.readNoteVelocity(), {
         type: Syntax.NoteVelocity,
-        value: 4,
+        value: 4
       });
     });
   });
   describe("#readTempo(): object", () => {
     it("t", () => {
-      let parser = new MMLParser("t");
+      const parser = new MMLParser("t");
 
       assert.deepEqual(parser.readTempo(), {
         type: Syntax.Tempo,
-        value: null,
+        value: null
       });
     });
     it("t80", () => {
-      let parser = new MMLParser("t80");
+      const parser = new MMLParser("t80");
 
       assert.deepEqual(parser.readTempo(), {
         type: Syntax.Tempo,
-        value: 80,
+        value: 80
       });
     });
   });
   describe("#readInfiniteLoop(): object", () => {
     it("$", () => {
-      let parser = new MMLParser("$");
+      const parser = new MMLParser("$");
 
       assert.deepEqual(parser.readInfiniteLoop(), {
-        type: Syntax.InfiniteLoop,
+        type: Syntax.InfiniteLoop
       });
     });
   });
   describe("#readLoop(): object", () => {
     it("/::/", () => {
-      let parser = new MMLParser("/::/");
+      const parser = new MMLParser("/::/");
 
       assert.deepEqual(parser.readLoop(), [
         {
           type: Syntax.LoopBegin,
-          value: null,
+          value: null
         },
         {
-          type: Syntax.LoopEnd,
-        },
+          type: Syntax.LoopEnd
+        }
       ]);
     });
     it("/:c:/16", () => {
-      let parser = new MMLParser("/:c:/16");
+      const parser = new MMLParser("/:c:/16");
 
       assert.deepEqual(parser.readLoop(), [
         {
           type: Syntax.LoopBegin,
-          value: 16,
+          value: 16
         },
         {
           type: Syntax.Note,
           noteNumbers: [ 0 ],
-          noteLength: [ null ],
+          noteLength: [ null ]
         },
         {
-          type: Syntax.LoopEnd,
-        },
+          type: Syntax.LoopEnd
+        }
       ]);
     });
     it("/:c|r:/16", () => {
-      let parser = new MMLParser("/:c|r:/16");
+      const parser = new MMLParser("/:c|r:/16");
 
       assert.deepEqual(parser.readLoop(), [
         {
           type: Syntax.LoopBegin,
-          value: 16,
+          value: 16
         },
         {
           type: Syntax.Note,
           noteNumbers: [ 0 ],
-          noteLength: [ null ],
+          noteLength: [ null ]
         },
         {
-          type: Syntax.LoopExit,
+          type: Syntax.LoopExit
         },
         {
           type: Syntax.Rest,
-          noteLength: [ null ],
+          noteLength: [ null ]
         },
         {
-          type: Syntax.LoopEnd,
-        },
+          type: Syntax.LoopEnd
+        }
       ]);
     });
   });

@@ -1,17 +1,19 @@
-import assert from "power-assert";
-import Scanner from "../src/Scanner";
+"use strict";
+
+const assert = require("power-assert");
+const Scanner = require("../src/Scanner");
 
 describe("Scanner", () => {
   describe("constructor(source: string)", () => {
     it("works", () => {
-      let scanner = new Scanner("");
+      const scanner = new Scanner("");
 
       assert(scanner instanceof Scanner);
     });
   });
   describe("#hasNext(): boolean", () => {
     it("works", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert(scanner.hasNext() === true);
 
@@ -27,7 +29,7 @@ describe("Scanner", () => {
   });
   describe("#peek(): string", () => {
     it("works", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert(scanner.peek() === "f");
       assert(scanner.peek() === "f");
@@ -50,7 +52,7 @@ describe("Scanner", () => {
   });
   describe("#next(): string", () => {
     it("works", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert(scanner.next() === "f");
       assert(scanner.next() === "o");
@@ -60,7 +62,7 @@ describe("Scanner", () => {
   });
   describe("#forward(): void", () => {
     it("works", () => {
-      let scanner = new Scanner("f   o   o");
+      const scanner = new Scanner("f   o   o");
 
       assert(scanner.next() === "f");
 
@@ -79,13 +81,13 @@ describe("Scanner", () => {
   });
   describe("#match(matcher: string|RegExp): boolean", () => {
     it("works with string", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert(scanner.match("f") === true);
       assert(scanner.match("F") === false);
     });
     it("works with RegExp", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert(scanner.match(/\w/) === true);
       assert(scanner.match(/F/i) === true);
@@ -93,7 +95,7 @@ describe("Scanner", () => {
   });
   describe("#expect(matcher: string|RegExp): void throws SyntaxError", () => {
     it("works with string", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert.doesNotThrow(() => {
         scanner.expect("f");
@@ -103,7 +105,7 @@ describe("Scanner", () => {
       });
     });
     it("works with RegExp", () => {
-      let scanner = new Scanner("foo");
+      const scanner = new Scanner("foo");
 
       assert.doesNotThrow(() => {
         scanner.expect(/\w/);
@@ -115,13 +117,13 @@ describe("Scanner", () => {
   });
   describe("#scan(matcher: string|RegExp): string", () => {
     it("works with string", () => {
-      let scanner = new Scanner("foo bar baz");
+      const scanner = new Scanner("foo bar baz");
 
       assert(scanner.scan("foo") === "foo");
       assert(scanner.scan("foo") === null);
     });
     it("works with RegExp", () => {
-      let scanner = new Scanner("foo bar baz");
+      const scanner = new Scanner("foo bar baz");
 
       assert(scanner.scan(/\w+/) === "foo");
       assert(scanner.scan(/\w+/) === null);
@@ -129,7 +131,7 @@ describe("Scanner", () => {
   });
   describe("#throwUnexpectedToken(): throws SyntaxError", () => {
     it("works with invalid token", () => {
-      let scanner = new Scanner("foo bar baz");
+      const scanner = new Scanner("foo bar baz");
 
       assert.throws(() => {
         scanner.throwUnexpectedToken();
@@ -138,7 +140,7 @@ describe("Scanner", () => {
       });
     });
     it("works with ILLEGAL token", () => {
-      let scanner = new Scanner("");
+      const scanner = new Scanner("");
 
       assert.throws(() => {
         scanner.throwUnexpectedToken();

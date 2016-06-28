@@ -1,3 +1,1 @@
-import MMLIterator from "./MMLIterator";
-
-export default MMLIterator;
+module.exports = require("./MMLIterator");

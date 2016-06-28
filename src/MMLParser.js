@@ -1,9 +1,10 @@
-import Syntax from "./Syntax";
-import Scanner from "./Scanner";
+"use strict";
 
+const Syntax = require("./Syntax");
+const Scanner = require("./Scanner");
 const NOTE_INDEXES = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
 
-export default class MMLParser {
+class MMLParser {
   constructor(source) {
     this.scanner = new Scanner(source);
   }
@@ -60,14 +61,15 @@ export default class MMLParser {
     return {
       type: Syntax.Note,
       noteNumbers: [ this._readNoteNumber(0) ],
-      noteLength: this._readLength(),
+      noteLength: this._readLength()
     };
   }
 
   readChord() {
     this.scanner.expect("[");
 
-    let noteList = [];
+    const noteList = [];
+
     let offset = 0;
 
     this._readUntil("]", () => {
@@ -99,7 +101,7 @@ export default class MMLParser {
     return {
       type: Syntax.Note,
       noteNumbers: noteList,
-      noteLength: this._readLength(),
+      noteLength: this._readLength()
     };
   }
 
@@ -108,7 +110,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.Rest,
-      noteLength: this._readLength(),
+      noteLength: this._readLength()
     };
   }
 
@@ -117,7 +119,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.Octave,
-      value: this._readArgument(/\d+/),
+      value: this._readArgument(/\d+/)
     };
   }
 
@@ -127,7 +129,7 @@ export default class MMLParser {
     return {
       type: Syntax.OctaveShift,
       direction: direction|0,
-      value: this._readArgument(/\d+/),
+      value: this._readArgument(/\d+/)
     };
   }
 
@@ -136,7 +138,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.NoteLength,
-      noteLength: this._readLength(),
+      noteLength: this._readLength()
     };
   }
 
@@ -145,7 +147,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.NoteQuantize,
-      value: this._readArgument(/\d+/),
+      value: this._readArgument(/\d+/)
     };
   }
 
@@ -154,7 +156,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.NoteVelocity,
-      value: this._readArgument(/\d+/),
+      value: this._readArgument(/\d+/)
     };
   }
 
@@ -163,7 +165,7 @@ export default class MMLParser {
 
     return {
       type: Syntax.Tempo,
-      value: this._readArgument(/\d+(\.\d+)?/),
+      value: this._readArgument(/\d+(\.\d+)?/)
     };
   }
 
@@ -171,7 +173,7 @@ export default class MMLParser {
     this.scanner.expect("$");
 
     return {
-      type: Syntax.InfiniteLoop,
+      type: Syntax.InfiniteLoop
     };
   }
 
@@ -179,9 +181,10 @@ export default class MMLParser {
     this.scanner.expect("/");
     this.scanner.expect(":");
 
+    const loopBegin = { type: Syntax.LoopBegin };
+    const loopEnd = { type: Syntax.LoopEnd };
+
     let result = [];
-    let loopBegin = { type: Syntax.LoopBegin };
-    let loopEnd = { type: Syntax.LoopEnd };
 
     result = result.concat(loopBegin);
     this._readUntil(/[|:]/, () => {
@@ -210,13 +213,13 @@ export default class MMLParser {
   }
 
   _readArgument(matcher) {
-    let num = this.scanner.scan(matcher);
+    const num = this.scanner.scan(matcher);
 
     return num !== null ? +num : null;
   }
 
   _readNoteNumber(offset) {
-    let noteIndex = NOTE_INDEXES[this.scanner.next()];
+    const noteIndex = NOTE_INDEXES[this.scanner.next()];
 
     return noteIndex + this._readAccidental() + offset;
   }
@@ -232,8 +235,8 @@ export default class MMLParser {
   }
 
   _readDot() {
-    let len = (this.scanner.scan(/\.+/) || "").length;
-    let result = new Array(len);
+    const len = (this.scanner.scan(/\.+/) || "").length;
+    const result = new Array(len);
 
     for (let i = 0; i < len; i++) {
       result[i] = 0;
@@ -248,7 +251,7 @@ export default class MMLParser {
     result = result.concat(this._readArgument(/\d+/));
     result = result.concat(this._readDot());
 
-    let tie = this._readTie();
+    const tie = this._readTie();
 
     if (tie) {
       result = result.concat(tie);
@@ -274,7 +277,7 @@ export default class MMLParser {
     if (this.scanner.match("|")) {
       this.scanner.next();
 
-      let loopExit = { type: Syntax.LoopExit };
+      const loopExit = { type: Syntax.LoopExit };
 
       result = result.concat(loopExit);
 
@@ -286,3 +289,5 @@ export default class MMLParser {
     return result;
   }
 }
+
+module.exports = MMLParser;
