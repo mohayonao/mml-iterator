@@ -135,7 +135,7 @@ describe("Scanner", () => {
 
       assert.throws(() => {
         scanner.throwUnexpectedToken();
-      }, (err) => {
+      }, function(err) {
         return err instanceof SyntaxError && err.message === "Unexpected token: f";
       });
     });
@@ -144,7 +144,7 @@ describe("Scanner", () => {
 
       assert.throws(() => {
         scanner.throwUnexpectedToken();
-      }, (err) => {
+      }, function(err) {
         return err instanceof SyntaxError && err.message === "Unexpected token: ILLEGAL";
       });
     });
