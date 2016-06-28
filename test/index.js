@@ -1,6 +1,8 @@
-import assert from "power-assert";
-import index from "../src";
-import MMLIterator from "../src/MMLIterator";
+"use strict";
+
+const assert = require("power-assert");
+const index = require("../src");
+const MMLIterator = require("../src/MMLIterator");
 
 describe("index", () => {
   it("exports", () => {

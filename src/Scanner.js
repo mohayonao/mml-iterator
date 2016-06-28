@@ -1,4 +1,6 @@
-export default class Scanner {
+"use strict";
+
+class Scanner {
   constructor(source) {
     this.source = source;
     this.index = 0;
@@ -37,11 +39,12 @@ export default class Scanner {
   }
 
   scan(matcher) {
-    let target = this.source.substr(this.index);
+    const target = this.source.substr(this.index);
+
     let result = null;
 
     if (matcher instanceof RegExp) {
-      let matched = matcher.exec(target);
+      const matched = matcher.exec(target);
 
       if (matched && matched.index === 0) {
         result = matched[0];
@@ -58,8 +61,10 @@ export default class Scanner {
   }
 
   throwUnexpectedToken() {
-    let identifier = this.peek() || "ILLEGAL";
+    const identifier = this.peek() || "ILLEGAL";
 
     throw new SyntaxError(`Unexpected token: ${identifier}`);
   }
 }
+
+module.exports = Scanner;

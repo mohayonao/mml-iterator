@@ -1,10 +1,11 @@
-import Syntax from "./Syntax";
-import DefaultParams from "./DefaultParams";
-import MMLParser from "./MMLParser";
+"use strict";
 
-const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "Symbol(Symbol.iterator)";
+const Syntax = require("./Syntax");
+const DefaultParams = require("./DefaultParams");
+const MMLParser = require("./MMLParser");
+const ITERATOR = typeof Symbol !== "undefined" ? Symbol.iterator : "@@iterator";
 
-export default class MMLIterator {
+ class MMLIterator {
   constructor(source) {
     this.source = source;
 
@@ -32,14 +33,14 @@ export default class MMLIterator {
     }
 
     if (this._iterator) {
-      let iterItem = this._iterator.next();
+      const iterItem = this._iterator.next();
 
       if (!iterItem.done) {
         return iterItem;
       }
     }
 
-    let command = this._forward(true);
+    const command = this._forward(true);
 
     if (isNoteEvent(command)) {
       this._iterator = this[command.type](command);
@@ -57,7 +58,7 @@ export default class MMLIterator {
 
   _forward(forward) {
     while (this.hasNext() && !isNoteEvent(this._commands[this._commandIndex])) {
-      let command = this._commands[this._commandIndex++];
+      const command = this._commands[this._commandIndex++];
 
       this[command.type](command);
     }
@@ -92,7 +93,7 @@ export default class MMLIterator {
         break;
       }
 
-      let length = elem !== null ? elem : DefaultParams.length;
+      const length = elem !== null ? elem : DefaultParams.length;
 
       return (60 / this._tempo) * (4 / length);
     });
@@ -105,12 +106,12 @@ export default class MMLIterator {
   }
 
   [Syntax.Note](command) {
-    let type = "note";
-    let time = this._processedTime;
-    let duration = this._calcDuration(command.noteLength);
-    let noteNumbers = command.noteNumbers.map(noteNumber => this._calcNoteNumber(noteNumber));
-    let quantize = this._quantize;
-    let velocity = this._velocity;
+    const type = "note";
+    const time = this._processedTime;
+    const duration = this._calcDuration(command.noteLength);
+    const noteNumbers = command.noteNumbers.map(noteNumber => this._calcNoteNumber(noteNumber));
+    const quantize = this._quantize;
+    const velocity = this._velocity;
 
     this._processedTime = this._processedTime + duration;
 
@@ -120,7 +121,7 @@ export default class MMLIterator {
   }
 
   [Syntax.Rest](command) {
-    let duration = this._calcDuration(command.noteLength);
+    const duration = this._calcDuration(command.noteLength);
 
     this._processedTime = this._processedTime + duration;
   }
@@ -130,15 +131,13 @@ export default class MMLIterator {
   }
 
   [Syntax.OctaveShift](command) {
-    let value = command.value !== null ? command.value : 1;
+    const value = command.value !== null ? command.value : 1;
 
     this._octave += value * command.direction;
   }
 
   [Syntax.NoteLength](command) {
-    let noteLength = command.noteLength.map((value) => {
-      return value !== null ? value : DefaultParams.length;
-    });
+    const noteLength = command.noteLength.map(value => value !== null ? value : DefaultParams.length);
 
     this._noteLength = noteLength;
   }
@@ -160,15 +159,16 @@ export default class MMLIterator {
   }
 
   [Syntax.LoopBegin](command) {
-    let loopCount = command.value !== null ? command.value : DefaultParams.loopCount;
-    let loopTopIndex = this._commandIndex;
-    let loopOutIndex = -1;
+    const loopCount = command.value !== null ? command.value : DefaultParams.loopCount;
+    const loopTopIndex = this._commandIndex;
+    const loopOutIndex = -1;
 
     this._loopStack.push({ loopCount, loopTopIndex, loopOutIndex });
   }
 
   [Syntax.LoopExit]() {
-    let looper = this._loopStack[this._loopStack.length - 1];
+    const looper = this._loopStack[this._loopStack.length - 1];
+
     let index = this._commandIndex;
 
     if (looper.loopCount <= 1 && looper.loopOutIndex !== -1) {
@@ -179,7 +179,8 @@ export default class MMLIterator {
   }
 
   [Syntax.LoopEnd]() {
-    let looper = this._loopStack[this._loopStack.length - 1];
+    const looper = this._loopStack[this._loopStack.length - 1];
+
     let index = this._commandIndex;
 
     if (looper.loopOutIndex === -1) {
@@ -206,10 +207,12 @@ function arrayToIterator(array) {
         return { done: false, value: array[index++] };
       }
       return { done: true };
-    },
+    }
   };
 }
 
 function isNoteEvent(command) {
   return command.type === Syntax.Note || command.type === Syntax.Rest;
 }
+
+module.exports = MMLIterator;

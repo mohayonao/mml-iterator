@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   Note: "Note",
   Rest: "Rest",
   Octave: "Octave",
@@ -10,5 +10,5 @@ export default {
   InfiniteLoop: "InfiniteLoop",
   LoopBegin: "LoopBegin",
   LoopExit: "LoopExit",
-  LoopEnd: "LoopEnd",
+  LoopEnd: "LoopEnd"
 };

@@ -1,12 +1,14 @@
-import assert from "power-assert";
-import MMLIterator from "../src/MMLIterator";
-import testCases from "./testCases.json";
+"use strict";
+
+const assert = require("power-assert");
+const MMLIterator = require("../src/MMLIterator");
+const testCases = require("./testCases.json");
 
 function getIteratorResult(iter) {
-  let result = [];
+  const result = [];
 
   while (result.length < 15) {
-    let items = iter.next();
+    const items = iter.next();
 
     if (items.done) {
       break;
@@ -21,9 +23,9 @@ function getIteratorResult(iter) {
 describe("test", () => {
   Object.keys(testCases).forEach((source) => {
     it(source, () => {
-      let iter = new MMLIterator(source);
-      let result = getIteratorResult(iter);
-      let expected = testCases[source];
+      const iter = new MMLIterator(source);
+      const result = getIteratorResult(iter);
+      const expected = testCases[source];
 
       assert.deepEqual(result, expected);
     });
